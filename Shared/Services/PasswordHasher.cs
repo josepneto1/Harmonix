@@ -7,6 +7,9 @@ public class PasswordHasher
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
         return passwordHash;
     }
-    
-    //dps fazer o verify
+
+    public bool VerifyPassword(string password, string passwordHash)
+    {
+        return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+    }
 }

@@ -12,6 +12,7 @@ public class User : BaseEntity
     public DateTimeOffset? UpdatedAt { get; private set; }
 
     public Company Company { get; private set; } = null!;
+    public List<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
 
     protected User() { }
 

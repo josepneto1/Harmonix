@@ -3,12 +3,14 @@ using Harmonix.Features.Staff.Users.Get;
 using Harmonix.Features.Staff.Users.List;
 using Harmonix.Features.Staff.Users.Update;
 using Harmonix.Shared.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Harmonix.Features.Staff.Users;
 
 [ApiController]
 [Route("api/staff/[controller]")]
+[Authorize(Roles = "SysAdmin")]
 public class UsersController : ControllerBase
 {
     [HttpPost("create")]
