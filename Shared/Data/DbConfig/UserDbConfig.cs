@@ -25,5 +25,10 @@ public class UserDbConfig : IEntityTypeConfiguration<User>
         builder.HasIndex(u => u.Email).IsUnique().HasDatabaseName("ux_users_email");
 
         builder.HasOne(u => u.Company).WithMany(c => c.Users).HasForeignKey(u => u.CompanyId);
+
+        builder.HasMany(u => u.RefreshTokens)
+            .WithOne(rt => rt.User)
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

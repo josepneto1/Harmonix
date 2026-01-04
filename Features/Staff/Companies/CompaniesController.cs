@@ -2,13 +2,15 @@
 using Harmonix.Features.Staff.Companies.Get;
 using Harmonix.Features.Staff.Companies.List;
 using Harmonix.Features.Staff.Companies.Update;
-using Microsoft.AspNetCore.Mvc;
 using Harmonix.Shared.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Harmonix.Features.Staff.Companies;
 
 [ApiController]
 [Route("api/staff/[controller]")]
+[Authorize(Roles = "SysAdmin")]
 public class CompaniesController : ControllerBase
 {
     [HttpPost("create")]

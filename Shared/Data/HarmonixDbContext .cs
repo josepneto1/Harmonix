@@ -10,11 +10,13 @@ public class HarmonixDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Company> Companies { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserDbConfig());
         modelBuilder.ApplyConfiguration(new CompanyDbConfig());
+        modelBuilder.ApplyConfiguration(new RefreshTokenDbConfig());
 
         base.OnModelCreating(modelBuilder);
     }
