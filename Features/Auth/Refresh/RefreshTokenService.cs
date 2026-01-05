@@ -26,11 +26,11 @@ public class RefreshTokenService
                 .ThenInclude(u => u.Company)
             .FirstOrDefaultAsync(rt => rt.Token == request.RefreshToken, ct);
 
-        if (refreshToken == null || !refreshToken.IsValid)
+        if (refreshToken is null || !refreshToken.IsValid)
             return Result<RefreshTokenResponse>.Fail(AuthError.InvalidRefreshToken);
 
         var user = refreshToken.User;
-        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role, user.Company.Alias);
+        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), user.Company.Alias);
         var expiresAt = DateTime.UtcNow.AddMinutes(60);
 
         var response = new RefreshTokenResponse(newAccessToken, expiresAt);

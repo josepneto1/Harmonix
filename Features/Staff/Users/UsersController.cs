@@ -30,10 +30,6 @@ public class UsersController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(id, ct);
-
-        if (result == null)
-            return NotFound();
-
         return this.GetResult(result);
     }
 
@@ -54,10 +50,6 @@ public class UsersController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(id, request, ct);
-
-        if (result == null)
-            return NotFound();
-
         return this.GetResult(result);
     }
 }

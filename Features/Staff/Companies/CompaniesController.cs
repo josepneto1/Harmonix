@@ -30,19 +30,15 @@ public class CompaniesController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(id, ct);
-
-        if (result == null)
-            return NotFound();
-
         return this.GetResult(result);
     }
 
     [HttpGet("list")]
     public async Task<IActionResult> ListCompanies(
         [FromServices] ListCompaniesService service,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var result = await service.ExecuteAsync(cancellationToken);
+        var result = await service.ExecuteAsync(ct);
         return this.GetResult(result);
     }
 
@@ -54,10 +50,6 @@ public class CompaniesController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(id, request, ct);
-
-        if (result == null)
-            return NotFound();
-
         return this.GetResult(result);
     }
 }

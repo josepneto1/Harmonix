@@ -3,6 +3,5 @@
 public record UpdateCompanyRequest(
     string Name,
     string Alias,
-    DateTimeOffset CreatedAt,
     DateTimeOffset ExpirationDate
 );

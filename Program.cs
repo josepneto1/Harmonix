@@ -1,3 +1,4 @@
+using FluentValidation;
 using Harmonix.Shared.Data;
 using Harmonix.Shared.Security;
 using Harmonix.Shared.Services;
@@ -13,6 +14,8 @@ var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>()!;
 builder.Services.AddSingleton(jwtSettings);
 
 builder.Services.AddControllers();
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddDbContext<HarmonixDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HarmonixDb")));

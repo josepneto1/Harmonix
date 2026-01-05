@@ -30,7 +30,7 @@ public class LoginService
             .Include(u => u.Company)
             .FirstOrDefaultAsync(u => u.Email == request.Email, ct);
 
-        if (user == null)
+        if (user is null)
             return Result<LoginResponse>.Fail(AuthError.InvalidCredentials);
 
         if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
@@ -48,7 +48,7 @@ public class LoginService
             token.Revoke();
         }
 
-        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role, user.Company.Alias);
+        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), user.Company.Alias);
         var refreshTokenString = _jwtTokenProvider.GenerateRefreshToken();
         var expiresAt = DateTime.UtcNow.AddDays(7);
 
@@ -59,11 +59,11 @@ public class LoginService
         var response = new LoginResponse(
             user.Id,
             user.Email,
-            user.Role,
+            user.Role.ToString(),
             user.Company.Alias,
             accessToken,
             refreshTokenString,
-            DateTime.UtcNow.AddMinutes(15)
+            DateTime.UtcNow.AddMinutes(60)
         );
 
         return Result<LoginResponse>.Success(response);

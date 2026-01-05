@@ -28,7 +28,7 @@ public class GetUserByIdService
             ))
             .FirstOrDefaultAsync(ct);
 
-        if (user == null)
+        if (user is null)
             return Result<GetUserByIdResponse>.Fail(CommonError.NotFound);
 
         return Result<GetUserByIdResponse>.Success(user);
