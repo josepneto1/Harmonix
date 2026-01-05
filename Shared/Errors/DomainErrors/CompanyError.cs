@@ -4,7 +4,7 @@ namespace Harmonix.Shared.Errors.DomainErrors;
 
 public static class CompanyError
 {
-    public static Error Expired => new("company.expired", "Company subscription has expired", ErrorStatus.Forbidden);
-    public static Error AliasAlreadyExists => new("company.alias-exists", "Company alias already exists", ErrorStatus.Conflict);
+    public static Error Expired => new("company.expired", "Acesso expirado", ErrorStatus.Forbidden);
+    public static Error AliasAlreadyExists => new("company.alias-exists", "Empresa já existe", ErrorStatus.Conflict);
 
 }

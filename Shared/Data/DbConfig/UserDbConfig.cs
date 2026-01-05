@@ -17,7 +17,7 @@ public class UserDbConfig : IEntityTypeConfiguration<User>
         builder.Property(u => u.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
         builder.Property(u => u.Email).HasColumnName("email").HasMaxLength(255).IsRequired();
         builder.Property(u => u.PasswordHash).HasColumnName("password_hash").HasMaxLength(500).IsRequired();
-        builder.Property(u => u.Role).HasColumnName("role").HasMaxLength(50).IsRequired();
+        builder.Property(u => u.Role).HasColumnName("role").HasMaxLength(50).IsRequired().HasConversion<string>();
         builder.Property(u => u.CreatedAt).HasColumnName("created_at").HasColumnType("datetimeoffset").IsRequired();
         builder.Property(u => u.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetimeoffset");
         builder.Property(u => u.Removed).HasColumnName("removed").HasColumnType("bit").HasDefaultValue(false);

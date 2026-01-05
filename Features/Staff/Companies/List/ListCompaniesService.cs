@@ -13,7 +13,7 @@ public class ListCompaniesService
         _context = context;
     }
 
-    public async Task<Result<List<ListCompaniesResponse>>> ExecuteAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<ListCompaniesResponse>>> ExecuteAsync(CancellationToken ct)
     {
         var companies = await _context.Companies
             .AsNoTracking()
@@ -22,7 +22,7 @@ public class ListCompaniesService
                 c.Id,
                 c.Name
             ))
-            .ToListAsync(cancellationToken);
+            .ToListAsync(ct);
 
         return Result<List<ListCompaniesResponse>>.Success(companies);
     }

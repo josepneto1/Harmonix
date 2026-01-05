@@ -28,7 +28,7 @@ public class GetCompanyByIdService
             ))
             .FirstOrDefaultAsync(ct);
 
-        if (company == null)
+        if (company is null)
             return Result<GetCompanyByIdResponse>.Fail(CommonError.NotFound);
 
         return Result<GetCompanyByIdResponse>.Success(company);

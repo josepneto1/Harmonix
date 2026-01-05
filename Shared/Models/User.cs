@@ -1,4 +1,6 @@
-﻿namespace Harmonix.Shared.Models;
+﻿using Harmonix.Shared.Models.Enums;
+
+namespace Harmonix.Shared.Models;
 
 public class User : BaseEntity
 {
@@ -7,7 +9,7 @@ public class User : BaseEntity
     public string Name { get; private set; } = null!;
     public string Email { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
-    public string Role { get; private set; } = null!;
+    public Role Role { get; private set; }
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? UpdatedAt { get; private set; }
 
@@ -21,7 +23,7 @@ public class User : BaseEntity
         string name,
         string email,
         string passwordHash,
-        string role)
+        Role role)
     {
         Id = Guid.NewGuid();
         CompanyId = companyId;

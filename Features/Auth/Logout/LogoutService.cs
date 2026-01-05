@@ -20,7 +20,7 @@ public class LogoutService
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(rt => rt.Token == request.RefreshToken, ct);
 
-        if (refreshToken == null)
+        if (refreshToken is null)
             return Result<LogoutResponse>.Fail(CommonError.InternalError);
 
         if (refreshToken.IsRevoked)

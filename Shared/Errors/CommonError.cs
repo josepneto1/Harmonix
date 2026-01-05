@@ -4,8 +4,8 @@ namespace Harmonix.Shared.Errors;
 
 public static class CommonError
 {
-    public static Error NotFound => new("common.not-found", "Not found", ErrorStatus.NotFound);
-    public static Error InternalError => new("internal.error", "Internal server error", ErrorStatus.InternalError);
+    public static Error NotFound => new("common.not-found", "Não encontrado", ErrorStatus.NotFound);
+    public static Error InternalError => new("internal.error", "Erro interno", ErrorStatus.InternalError);
     public static Error BadRequest(string message) => new("bad.request", message, ErrorStatus.BadRequest);
-    public static Error EmailAlreadyExists => new("common.email-exists", "Email already in use", ErrorStatus.Conflict);
+    public static Error EmailAlreadyExists => new("common.email-exists", "Este email já existe", ErrorStatus.Conflict);
 }

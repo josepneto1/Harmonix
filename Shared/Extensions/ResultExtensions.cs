@@ -1,4 +1,6 @@
-﻿using Harmonix.Shared.Results;
+﻿using FluentValidation.Results;
+using Harmonix.Shared.Errors;
+using Harmonix.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Harmonix.Shared.Extensions;
@@ -16,7 +18,8 @@ public static class ResultExtensions
             new
             {
                 error = error.Code,
-                message = error.Message
+                message = error.Message,
+                details = error.Details
             });
     }
 
@@ -31,7 +34,8 @@ public static class ResultExtensions
             new
             {
                 error = error.Code,
-                message = error.Message
+                message = error.Message,
+                details = error.Details
             });
     }
 
@@ -46,7 +50,17 @@ public static class ResultExtensions
             new
             {
                 error = error.Code,
-                message = error.Message
+                message = error.Message,
+                details = error.Details
             });
+    }
+
+    public static Error ToValidationError(this ValidationResult validationResult)
+    {
+        var details = validationResult.Errors
+            .Select(failure => new ValidationError(failure.PropertyName, failure.ErrorMessage))
+            .ToList();
+
+        return ValidationError.Validation(details);
     }
 }
