@@ -34,4 +34,18 @@ public class User : BaseEntity
         CreatedAt = DateTimeOffset.UtcNow;
         Activate();
     }
+
+    public void Update(string? name, string? email, Role? role)
+    {
+        if (name is not null)
+            Name = name.Trim();
+
+        if (email is not null)
+            Email = email;
+
+        if (role is Role r)
+            Role = r;
+
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
 }
