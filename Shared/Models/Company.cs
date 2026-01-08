@@ -8,6 +8,7 @@ public class Company : BaseEntity
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? UpdatedAt { get; private set; }
     public DateTimeOffset ExpirationDate { get; private set; }
+    public bool IsActive { get; private set; }
 
     public List<User> Users { get; private set; } = new List<User>();
 
@@ -20,6 +21,7 @@ public class Company : BaseEntity
         Alias = alias;
         CreatedAt = DateTimeOffset.UtcNow;
         ExpirationDate = expirationDate;
+        IsActive = true;
     }
 
     public void Update(string? name, string? alias, DateTimeOffset? expirationDate)
@@ -42,5 +44,17 @@ public class Company : BaseEntity
             .Trim()
             .Replace(" ", "")
             .ToLower();
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void Activate()
+    {
+        IsActive = true;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 }
