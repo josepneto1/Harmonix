@@ -17,7 +17,6 @@ public class AuthController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(request, ct);
-        
         return this.GetResult(result);
     }
 
@@ -28,7 +27,6 @@ public class AuthController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(request, ct);
-        
         return this.GetResult(result);
     }
 
@@ -39,7 +37,6 @@ public class AuthController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(request, ct);
-        
         return this.GetResult(result);
     }
 }

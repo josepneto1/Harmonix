@@ -1,4 +1,5 @@
 ﻿using Harmonix.Features.Staff.Users.Create;
+using Harmonix.Features.Staff.Users.Delete;
 using Harmonix.Features.Staff.Users.Get;
 using Harmonix.Features.Staff.Users.List;
 using Harmonix.Features.Staff.Users.Update;
@@ -42,14 +43,23 @@ public class UsersController : ControllerBase
         return this.GetResult(result);
     }
 
-    [HttpPut("update/{id:guid}")]
+    [HttpPatch("update")]
     public async Task<IActionResult> UpdateUser(
-        Guid id,
         [FromBody] UpdateUserRequest request,
         [FromServices] UpdateUserService service,
         CancellationToken ct)
     {
-        var result = await service.ExecuteAsync(id, request, ct);
+        var result = await service.ExecuteAsync(request, ct);
+        return this.GetResult(result);
+    }
+
+    [HttpDelete("delete/{id:guid}")]
+    public async Task<IActionResult> DeleteCompany(
+        Guid id,
+        [FromServices] DeleteUserService service,
+        CancellationToken ct)
+    {
+        var result = await service.ExecuteAsync(id, ct);
         return this.GetResult(result);
     }
 }

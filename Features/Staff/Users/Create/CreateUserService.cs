@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
-using Harmonix.Features.Staff.Companies.Create;
-using Harmonix.Features.Staff.Companies.Update;
 using Harmonix.Shared.Data;
 using Harmonix.Shared.Errors;
-using Harmonix.Shared.Errors.DomainErrors;
 using Harmonix.Shared.Extensions;
 using Harmonix.Shared.Models;
 using Harmonix.Shared.Results;

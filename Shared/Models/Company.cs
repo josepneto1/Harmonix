@@ -21,4 +21,26 @@ public class Company : BaseEntity
         CreatedAt = DateTimeOffset.UtcNow;
         ExpirationDate = expirationDate;
     }
+
+    public void Update(string? name, string? alias, DateTimeOffset? expirationDate)
+    {
+        if (name is not null)
+            Name = name.Trim();
+        
+        if (alias is not null)
+            Alias = NormalizeAlias(alias);
+
+        if (expirationDate is not null)
+            ExpirationDate = expirationDate.Value;
+
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    private static string NormalizeAlias(string alias)
+    {
+        return alias
+            .Trim()
+            .Replace(" ", "")
+            .ToLower();
+    }
 }
