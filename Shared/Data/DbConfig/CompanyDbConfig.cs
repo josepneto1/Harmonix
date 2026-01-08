@@ -18,6 +18,7 @@ public class CompanyDbConfig : IEntityTypeConfiguration<Company>
         builder.Property(c => c.ExpirationDate).HasColumnName("expiration_date").HasColumnType("datetimeoffset").IsRequired();
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetimeoffset");
         builder.Property(c => c.Removed).HasColumnName("removed").HasColumnType("bit").HasDefaultValue(false);
+        builder.Property(c => c.IsActive).HasColumnName("is_active").HasColumnType("bit").HasDefaultValue(true);
 
         builder.HasIndex(c => c.Alias).IsUnique().HasDatabaseName("ux_companies_alias");
 

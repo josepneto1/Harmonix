@@ -18,6 +18,9 @@ public class HarmonixDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CompanyDbConfig());
         modelBuilder.ApplyConfiguration(new RefreshTokenDbConfig());
 
+        modelBuilder.Entity<Company>()
+            .HasQueryFilter(c => c.IsActive);
+
         base.OnModelCreating(modelBuilder);
     }
 }

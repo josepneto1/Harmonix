@@ -32,7 +32,6 @@ public class User : BaseEntity
         PasswordHash = passwordHash;
         Role = role;
         CreatedAt = DateTimeOffset.UtcNow;
-        Activate();
     }
 
     public void Update(string? name, string? email, Role? role)

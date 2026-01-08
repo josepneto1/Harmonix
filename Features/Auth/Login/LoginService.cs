@@ -27,11 +27,17 @@ public class LoginService
     public async Task<Result<LoginResponse>> ExecuteAsync(LoginRequest request, CancellationToken ct)
     {
         var user = await _context.Users
+            .IgnoreQueryFilters()
             .Include(u => u.Company)
             .FirstOrDefaultAsync(u => u.Email == request.Email, ct);
 
         if (user is null)
             return Result<LoginResponse>.Fail(AuthError.InvalidCredentials);
+        
+        var companyIsActive = user.Company.IsActive;
+
+        if (!companyIsActive)
+            return Result<LoginResponse>.Fail(CompanyError.Inactive);
 
         if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             return Result<LoginResponse>.Fail(AuthError.InvalidCredentials);

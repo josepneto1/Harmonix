@@ -2,14 +2,14 @@
 
 public abstract class BaseEntity
 {
-    public bool Removed { get; private set; }
+    public bool Removed { get; private set; } = false;
 
     public virtual void Remove()
     {
         Removed = true;
     }
 
-    public virtual void Activate()
+    public virtual void Restore()
     {
         Removed = false;
     }

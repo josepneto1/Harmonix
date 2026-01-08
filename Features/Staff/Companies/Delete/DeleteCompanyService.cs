@@ -22,6 +22,7 @@ public class DeleteCompanyService
             return Result.Fail(CommonError.NotFound);
 
         company.Remove();
+        company.Deactivate();
 
         var users = await _context.Users
             .Where(u => u.CompanyId == company.Id && !u.Removed)

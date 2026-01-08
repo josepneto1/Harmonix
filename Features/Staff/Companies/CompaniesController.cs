@@ -1,4 +1,5 @@
-﻿using Harmonix.Features.Staff.Companies.Create;
+﻿using Harmonix.Features.Staff.Companies.Activate;
+using Harmonix.Features.Staff.Companies.Create;
 using Harmonix.Features.Staff.Companies.Delete;
 using Harmonix.Features.Staff.Companies.Get;
 using Harmonix.Features.Staff.Companies.List;
@@ -60,6 +61,17 @@ public class CompaniesController : ControllerBase
         CancellationToken ct)
     {
         var result = await service.ExecuteAsync(id, ct);
+        return this.GetResult(result);
+    }
+
+    [HttpPatch("changeStatus/{id:guid}")]
+    public async Task<IActionResult> SetCompanyStatus(
+    Guid id,
+    [FromBody] SetCompanyStatusRequest request,
+    [FromServices] SetCompanyStatusService service,
+    CancellationToken ct)
+    {
+        var result = await service.ExecuteAsync(id, request, ct);
         return this.GetResult(result);
     }
 }
