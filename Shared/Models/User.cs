@@ -1,10 +1,10 @@
-﻿using Harmonix.Shared.Models.Enums;
+﻿using Harmonix.Shared.Models.Companies;
+using Harmonix.Shared.Models.Enums;
 
 namespace Harmonix.Shared.Models;
 
 public class User : BaseEntity
 {
-    public Guid Id { get; private set; }
     public Guid CompanyId { get; private set; }
     public string Name { get; private set; } = null!;
     public string Email { get; private set; } = null!;

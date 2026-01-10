@@ -30,7 +30,8 @@ public class RefreshTokenService
             return Result<RefreshTokenResponse>.Fail(AuthError.InvalidRefreshToken);
 
         var user = refreshToken.User;
-        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), user.Company.Alias);
+        var companyAlias = user.Company.Alias.Value;
+        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), companyAlias);
         var expiresAt = DateTime.UtcNow.AddMinutes(60);
 
         var response = new RefreshTokenResponse(newAccessToken, expiresAt);

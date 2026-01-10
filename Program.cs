@@ -1,5 +1,6 @@
 using FluentValidation;
 using Harmonix.Shared.Data;
+using Harmonix.Shared.Middlewares;
 using Harmonix.Shared.Security;
 using Harmonix.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -53,6 +54,7 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseMiddleware<DomainExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
