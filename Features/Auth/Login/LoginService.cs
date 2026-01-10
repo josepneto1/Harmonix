@@ -54,7 +54,8 @@ public class LoginService
             token.Revoke();
         }
 
-        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), user.Company.Alias);
+        var companyAlias = user.Company.Alias.Value;
+        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), companyAlias);
         var refreshTokenString = _jwtTokenProvider.GenerateRefreshToken();
         var expiresAt = DateTime.UtcNow.AddDays(7);
 
@@ -66,7 +67,7 @@ public class LoginService
             user.Id,
             user.Email,
             user.Role.ToString(),
-            user.Company.Alias,
+            companyAlias,
             accessToken,
             refreshTokenString,
             DateTime.UtcNow.AddMinutes(60)

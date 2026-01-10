@@ -1,4 +1,5 @@
-﻿using Harmonix.Shared.Models;
+﻿using Harmonix.Shared.Models.Companies;
+using Harmonix.Shared.Models.Companies.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,7 +14,11 @@ public class CompanyDbConfig : IEntityTypeConfiguration<Company>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasColumnName("id").HasColumnType("uniqueidentifier");
         builder.Property(c => c.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
-        builder.Property(c => c.Alias).HasColumnName("alias").HasMaxLength(30).IsRequired();
+        builder.Property(c => c.Alias)
+            .HasColumnName("alias")
+            .HasConversion(alias => alias.Value, value => Alias.Create(value))
+            .HasMaxLength(30)
+            .IsRequired();
         builder.Property(c => c.CreatedAt).HasColumnName("created_at").HasColumnType("datetimeoffset").IsRequired();
         builder.Property(c => c.ExpirationDate).HasColumnName("expiration_date").HasColumnType("datetimeoffset").IsRequired();
         builder.Property(c => c.UpdatedAt).HasColumnName("updated_at").HasColumnType("datetimeoffset");

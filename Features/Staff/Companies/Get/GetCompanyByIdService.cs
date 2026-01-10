@@ -22,7 +22,7 @@ public class GetCompanyByIdService
             .Select(c => new GetCompanyByIdResponse(
                 c.Id,
                 c.Name,
-                c.Alias,
+                c.Alias.Value,
                 c.CreatedAt,
                 c.ExpirationDate
             ))

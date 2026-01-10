@@ -2,7 +2,6 @@ namespace Harmonix.Shared.Models;
 
 public class RefreshToken : BaseEntity
 {
-    public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
     public string Token { get; private set; } = null!;
     public DateTime ExpiresAt { get; private set; }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Harmonix.Shared.Application;
 using Harmonix.Shared.Data;
-using Harmonix.Shared.Models;
+using Harmonix.Shared.Models.Companies;
 using Harmonix.Shared.Results;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +34,7 @@ public class CreateCompanyService : BaseService<CreateCompanyRequest, CreateComp
         var response = new CreateCompanyResponse(
             company.Id,
             company.Name,
-            company.Alias,
+            company.Alias.Value,
             company.CreatedAt,
             company.ExpirationDate
         );
