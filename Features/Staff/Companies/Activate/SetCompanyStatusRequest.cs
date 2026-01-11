@@ -1,3 +1,3 @@
 ﻿namespace Harmonix.Features.Staff.Companies.Activate;
 
-public record SetCompanyStatusRequest(bool IsActive);
+public record SetCompanyStatusRequest(Guid CompanyId, bool IsActive);

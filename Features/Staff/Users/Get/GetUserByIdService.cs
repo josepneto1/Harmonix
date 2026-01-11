@@ -22,7 +22,7 @@ public class GetUserByIdService
                 u.Id,
                 u.Company.Name,
                 u.Name,
-                u.Email,
+                u.Email.Value,
                 u.Role,
                 u.CreatedAt
             ))

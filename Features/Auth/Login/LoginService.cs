@@ -1,6 +1,7 @@
 ﻿using Harmonix.Shared.Data;
 using Harmonix.Shared.Errors.DomainErrors;
 using Harmonix.Shared.Models;
+using Harmonix.Shared.Models.Common.ValueObjects;
 using Harmonix.Shared.Results;
 using Harmonix.Shared.Security;
 using Harmonix.Shared.Services;
@@ -26,10 +27,11 @@ public class LoginService
 
     public async Task<Result<LoginResponse>> ExecuteAsync(LoginRequest request, CancellationToken ct)
     {
+        var userEmail = Email.Create(request.Email);
         var user = await _context.Users
             .IgnoreQueryFilters()
             .Include(u => u.Company)
-            .FirstOrDefaultAsync(u => u.Email == request.Email, ct);
+            .FirstOrDefaultAsync(u => u.Email == userEmail, ct);
 
         if (user is null)
             return Result<LoginResponse>.Fail(AuthError.InvalidCredentials);
@@ -55,7 +57,7 @@ public class LoginService
         }
 
         var companyAlias = user.Company.Alias.Value;
-        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), companyAlias);
+        var accessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email.Value, user.Role.ToString(), companyAlias);
         var refreshTokenString = _jwtTokenProvider.GenerateRefreshToken();
         var expiresAt = DateTime.UtcNow.AddDays(7);
 
@@ -65,7 +67,7 @@ public class LoginService
 
         var response = new LoginResponse(
             user.Id,
-            user.Email,
+            user.Email.Value,
             user.Role.ToString(),
             companyAlias,
             accessToken,

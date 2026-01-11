@@ -1,4 +1,5 @@
-﻿using Harmonix.Shared.Models;
+﻿using Harmonix.Shared.Models.Common.ValueObjects;
+using Harmonix.Shared.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +16,11 @@ public class UserDbConfig : IEntityTypeConfiguration<User>
         builder.Property(u => u.Id).HasColumnName("id").HasColumnType("uniqueidentifier");
         builder.Property(u => u.CompanyId).HasColumnName("company_id").HasColumnType("uniqueidentifier");
         builder.Property(u => u.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
-        builder.Property(u => u.Email).HasColumnName("email").HasMaxLength(255).IsRequired();
+        builder.Property(u => u.Email)
+            .HasColumnName("email")
+            .HasConversion(email => email.Value, value => Email.Create(value))
+            .HasMaxLength(255)
+            .IsRequired();
         builder.Property(u => u.PasswordHash).HasColumnName("password_hash").HasMaxLength(500).IsRequired();
         builder.Property(u => u.Role).HasColumnName("role").HasMaxLength(50).IsRequired().HasConversion<string>();
         builder.Property(u => u.CreatedAt).HasColumnName("created_at").HasColumnType("datetimeoffset").IsRequired();

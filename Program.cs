@@ -1,8 +1,8 @@
 using FluentValidation;
+using Harmonix.Shared;
 using Harmonix.Shared.Data;
 using Harmonix.Shared.Middlewares;
 using Harmonix.Shared.Security;
-using Harmonix.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,14 +21,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddDbContext<HarmonixDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HarmonixDb")));
 
+builder.Services.AddShared();
+
 builder.Services.Scan(scan => scan
     .FromAssemblyOf<Program>()
     .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
     .AsSelf()
     .WithScopedLifetime());
-
-builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddScoped<JwtTokenProvider>();
 
 builder.Services
     .AddAuthentication(options =>

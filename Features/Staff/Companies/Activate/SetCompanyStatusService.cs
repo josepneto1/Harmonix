@@ -14,11 +14,11 @@ public sealed class SetCompanyStatusService
         _context = context;
     }
 
-    public async Task<Result> ExecuteAsync(Guid companyId, SetCompanyStatusRequest request, CancellationToken ct)
+    public async Task<Result> ExecuteAsync(SetCompanyStatusRequest request, CancellationToken ct)
     {
         var company = await _context.Companies
             .IgnoreQueryFilters()
-            .FirstOrDefaultAsync(c => c.Id == companyId && !c.Removed, ct);
+            .FirstOrDefaultAsync(c => c.Id == request.CompanyId && !c.Removed, ct);
 
         if (company is null)
             return Result.Fail(CommonError.NotFound);
