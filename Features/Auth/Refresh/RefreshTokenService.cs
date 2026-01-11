@@ -31,7 +31,7 @@ public class RefreshTokenService
 
         var user = refreshToken.User;
         var companyAlias = user.Company.Alias.Value;
-        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email, user.Role.ToString(), companyAlias);
+        var newAccessToken = _jwtTokenProvider.GenerateToken(user.Id, user.Email.Value, user.Role.ToString(), companyAlias);
         var expiresAt = DateTime.UtcNow.AddMinutes(60);
 
         var response = new RefreshTokenResponse(newAccessToken, expiresAt);

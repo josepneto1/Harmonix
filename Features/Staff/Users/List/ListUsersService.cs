@@ -1,5 +1,4 @@
 ﻿using Harmonix.Shared.Data;
-using Harmonix.Shared.Errors;
 using Harmonix.Shared.Results;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +20,7 @@ public class ListUsersService
                 u.Id,
                 u.Company.Name,
                 u.Name,
-                u.Email
+                u.Email.Value
             ))
             .ToListAsync(ct);
 

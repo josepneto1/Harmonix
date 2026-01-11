@@ -1,3 +1,5 @@
+using Harmonix.Shared.Models.Users;
+
 namespace Harmonix.Shared.Models;
 
 public class RefreshToken : BaseEntity

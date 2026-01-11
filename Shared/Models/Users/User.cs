@@ -1,13 +1,14 @@
-﻿using Harmonix.Shared.Models.Companies;
+﻿using Harmonix.Shared.Models.Common.ValueObjects;
+using Harmonix.Shared.Models.Companies;
 using Harmonix.Shared.Models.Enums;
 
-namespace Harmonix.Shared.Models;
+namespace Harmonix.Shared.Models.Users;
 
 public class User : BaseEntity
 {
     public Guid CompanyId { get; private set; }
     public string Name { get; private set; } = null!;
-    public string Email { get; private set; } = null!;
+    public Email Email { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
     public Role Role { get; private set; }
     public DateTimeOffset CreatedAt { get; init; }
@@ -28,7 +29,7 @@ public class User : BaseEntity
         Id = Guid.NewGuid();
         CompanyId = companyId;
         Name = name;
-        Email = email;
+        Email = Email.Create(email);
         PasswordHash = passwordHash;
         Role = role;
         CreatedAt = DateTimeOffset.UtcNow;
@@ -40,7 +41,7 @@ public class User : BaseEntity
             Name = name.Trim();
 
         if (email is not null)
-            Email = email;
+            Email = Email.Create(email);
 
         if (role is Role r)
             Role = r;

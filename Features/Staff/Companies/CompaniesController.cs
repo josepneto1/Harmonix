@@ -64,14 +64,13 @@ public class CompaniesController : ControllerBase
         return this.GetResult(result);
     }
 
-    [HttpPatch("changeStatus/{id:guid}")]
+    [HttpPatch("changeStatus")]
     public async Task<IActionResult> SetCompanyStatus(
-    Guid id,
     [FromBody] SetCompanyStatusRequest request,
     [FromServices] SetCompanyStatusService service,
     CancellationToken ct)
     {
-        var result = await service.ExecuteAsync(id, request, ct);
+        var result = await service.ExecuteAsync(request, ct);
         return this.GetResult(result);
     }
 }

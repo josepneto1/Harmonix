@@ -4,8 +4,8 @@ namespace Harmonix.Shared.Models.Companies.ValueObjects;
 
 public sealed record Alias
 {
-    public const int MaxLength = 30;
     public const int MinLength = 3;
+    public const int MaxLength = 30;
     public string Value { get; }
 
     private Alias(string value)

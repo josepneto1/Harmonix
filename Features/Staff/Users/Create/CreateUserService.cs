@@ -1,46 +1,52 @@
 ﻿using FluentValidation;
+using Harmonix.Shared.Application;
 using Harmonix.Shared.Data;
 using Harmonix.Shared.Errors;
-using Harmonix.Shared.Extensions;
-using Harmonix.Shared.Models;
+using Harmonix.Shared.Models.Common.Services;
+using Harmonix.Shared.Models.Common.ValueObjects;
+using Harmonix.Shared.Models.Users;
+using Harmonix.Shared.Models.Users.ValueObjects;
 using Harmonix.Shared.Results;
 using Harmonix.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Harmonix.Features.Staff.Users.Create;
 
-public class CreateUserService
+public class CreateUserService : BaseService<CreateUserRequest, CreateUserResponse>
 {
     private readonly HarmonixDbContext _context;
+    private readonly IEmailUniqueChecker _emailChecker;
     private readonly PasswordHasher _passwordHasher;
-    private readonly IValidator<CreateUserRequest> _validator;
 
     public CreateUserService(
         HarmonixDbContext context,
+        IEmailUniqueChecker emailChecker,
         PasswordHasher passwordHasher,
         IValidator<CreateUserRequest> validator)
+        : base(validator)
     {
         _context = context;
+        _emailChecker = emailChecker;
         _passwordHasher = passwordHasher;
-        _validator = validator;
     }
 
-    public async Task<Result<CreateUserResponse>> ExecuteAsync(CreateUserRequest request, CancellationToken ct)
+    protected override async Task<Result<CreateUserResponse>> HandleAsync(CreateUserRequest request, CancellationToken ct)
     {
-        var validationResult = _validator.Validate(request);
-        if (!validationResult.IsValid)
-            return Result<CreateUserResponse>.Fail(validationResult.ToValidationError());
-
         var company = await _context.Companies
             .FirstOrDefaultAsync(c => c.Id == request.CompanyId && !c.Removed, ct);
+
         if (company is null)
             return Result<CreateUserResponse>.Fail(CommonError.NotFound);
 
-        var emailExists = await _context.Users.AnyAsync(u => u.Email == request.Email, ct);
-        if (emailExists)
+        var email = Email.Create(request.Email);
+
+        var isUnique = await _emailChecker.IsUniqueAsync(email, ct);
+
+        if (!isUnique)
             return Result<CreateUserResponse>.Fail(CommonError.EmailAlreadyExists);
 
-        var passwordHash = _passwordHasher.HashPassword(request.Password);
+        var password = Password.Create(request.Password);
+        var passwordHash = _passwordHasher.HashPassword(password.Value);
 
         var user = new User(
             request.CompanyId,
@@ -57,7 +63,7 @@ public class CreateUserService
             user.Id,
             user.CompanyId,
             user.Name,
-            user.Email,
+            user.Email.Value,
             user.Role,
             user.CreatedAt
         );

@@ -1,5 +1,6 @@
 ﻿using Harmonix.Shared.Models.Companies.ValueObjects;
 using Harmonix.Shared.Models.Exceptions;
+using Harmonix.Shared.Models.Users;
 
 namespace Harmonix.Shared.Models.Companies;
 

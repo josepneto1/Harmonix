@@ -1,6 +1,7 @@
 ﻿using Harmonix.Shared.Data.DbConfig;
 using Harmonix.Shared.Models;
 using Harmonix.Shared.Models.Companies;
+using Harmonix.Shared.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Harmonix.Shared.Data;
