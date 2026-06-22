@@ -45,7 +45,7 @@ public class UpdateCompanyHandler : BaseHandler<UpdateCompanyRequest, UpdateComp
 
             if (alias != company.Alias)
             {
-                var isUnique = await _aliasChecker.IsUniqueAsync(alias);
+                var isUnique = await _aliasChecker.IsUniqueAsync(alias.Value);
                 if (!isUnique)
                     return Result<UpdateCompanyResponse>.Fail(CompanyErrors.AliasAlreadyExists);
             }

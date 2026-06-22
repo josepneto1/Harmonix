@@ -35,9 +35,12 @@ public class User : BaseEntity
 
     public static Result<User> Create(Guid companyId, string name, string email, Role role)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return Result<User>.Fail(CommonErrors.InvalidName);
+
         name = name.Trim();
 
-        if (!Validate.IsValidText(name, 3, 100))
+        if (!Validate.IsValidText(name, minLength: 3, maxLength: 100))
             return Result<User>.Fail(CommonErrors.InvalidName);
 
         var emailResult = Email.Create(email);
@@ -51,16 +54,25 @@ public class User : BaseEntity
         return Result<User>.Success(user);
     }
 
-    public void Update(string? name, string? email, Role? role)
+    public Result Update(string? name, Email? email, Role? role)
     {
+        name = name?.Trim();
+
         if (name is not null)
-            Name = name.Trim();
+        {
+            if (!Validate.IsValidText(name, 3, 100))
+                return Result.Fail(CommonErrors.InvalidName);
+
+            Name = name;
+        }
 
         if (email is not null)
-            Email = Email.Create(email).Data!;
+            Email = email;
 
         if (role is Role r)
             Role = r;
+
+        return Result.Success();
     }
 
     public void SetPasswordHash(string hash) => PasswordHash = hash;

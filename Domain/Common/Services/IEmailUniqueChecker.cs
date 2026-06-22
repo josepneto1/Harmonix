@@ -4,5 +4,5 @@ namespace Harmonix.Domain.Common.Services;
 
 public interface IEmailUniqueChecker
 {
-    Task<bool> IsUniqueAsync(Email email);
+    Task<bool> IsUniqueAsync(string email);
 }

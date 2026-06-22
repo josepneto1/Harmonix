@@ -6,16 +6,19 @@ namespace Harmonix.Domain.Common.ValueObjects;
 
 public sealed record Email
 {
-    private const int MaxLength = 255;
+    private const byte MaxLength = 255;
     public string Value { get; }
 
     private Email(string value) => Value = value;
 
     public static Result<Email> Create(string email)
     {
+        if (string.IsNullOrWhiteSpace(email))
+            return Result<Email>.Fail(CommonErrors.InvalidEmail);
+
         email = email.Trim();
 
-        if (!Validate.IsValidText(email, minLength: null, MaxLength)|| !IsValid(email))
+        if (!Validate.IsValidText(email, minLength: null, MaxLength) || !IsValid(email))
             return Result<Email>.Fail(CommonErrors.InvalidEmail);
 
         return Result<Email>.Success(new Email(email));

@@ -1,6 +1,7 @@
-﻿using Harmonix.Domain.Auth;
+using Harmonix.Domain.Auth;
 using Harmonix.Domain.Common;
 using Harmonix.Domain.Companies;
+using Harmonix.Domain.Products;
 using Harmonix.Domain.Users;
 using Harmonix.Infrastructure.Data.DbConfig;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,17 @@ public class HarmonixDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Company> Companies { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserDbConfig());
         modelBuilder.ApplyConfiguration(new CompanyDbConfig());
         modelBuilder.ApplyConfiguration(new RefreshTokenDbConfig());
+        modelBuilder.ApplyConfiguration(new ProductDbConfig());
 
         modelBuilder.Entity<Company>().HasQueryFilter(c => c.IsActive);
-        
+
         modelBuilder.Entity<User>().HasQueryFilter(u => !u.Company.Removed);
 
         base.OnModelCreating(modelBuilder);

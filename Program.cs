@@ -1,5 +1,6 @@
 using FluentValidation;
 using Harmonix.Common;
+using Harmonix.Common.CurrentRequest;
 using Harmonix.Infrastructure;
 using Harmonix.Infrastructure.Auth;
 using Harmonix.Infrastructure.Data;
@@ -38,6 +39,9 @@ builder.Services.AddDbContext<HarmonixDbContext>(options =>
 
 builder.Services.AddShared();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CurrentRequestMiddleware>();
+
 builder.Services.Scan(scan => scan
     .FromAssemblyOf<Program>()
     .AddClasses(c => c.AssignableTo<IHandler>())
@@ -71,6 +75,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
+app.UseCurrentRequest();
 app.UseAuthorization();
 app.MapControllers();
 

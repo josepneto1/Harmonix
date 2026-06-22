@@ -20,7 +20,7 @@ public class ListUsersHandler : BaseHandler<ListUsersRequest, ListUsersResponse>
         var page = request.NormalizedPage;
         var pageSize = request.NormalizedPageSize;
 
-        var query = _context.Users.AsNoTracking().IgnoreQueryFilters();
+        var query = _context.Users.AsNoTracking().Where(u => !u.Removed);
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
