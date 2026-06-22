@@ -1,4 +1,5 @@
-﻿using Harmonix.Api.Features.Staff.Users.Create;
+using Harmonix.Api.Features.Staff.Users.ChangePassword;
+using Harmonix.Api.Features.Staff.Users.Create;
 using Harmonix.Api.Features.Staff.Users.Delete;
 using Harmonix.Api.Features.Staff.Users.Get;
 using Harmonix.Api.Features.Staff.Users.List;
@@ -34,9 +35,9 @@ public class UsersController : ControllerBase
 
     [HttpGet("list")]
     public async Task<IActionResult> ListUsers(
-            [FromQuery] ListUsersRequest request,
-            ListUsersHandler handler, 
-            CancellationToken ct)
+        [FromQuery] ListUsersRequest request,
+        ListUsersHandler handler,
+        CancellationToken ct)
     {
         var result = await handler.ExecuteAsync(request, ct);
         return this.GetResult(result);
@@ -46,6 +47,16 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> UpdateUser(
         [FromBody] UpdateUserRequest request,
         UpdateUserHandler handler,
+        CancellationToken ct)
+    {
+        var result = await handler.ExecuteAsync(request, ct);
+        return this.GetResult(result);
+    }
+
+    [HttpPatch("changePassword")]
+    public async Task<IActionResult> ChangePassword(
+        [FromBody] ChangePasswordRequest request,
+        ChangePasswordHandler handler,
         CancellationToken ct)
     {
         var result = await handler.ExecuteAsync(request, ct);

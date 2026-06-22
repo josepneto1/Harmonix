@@ -12,5 +12,5 @@ public static class CommonErrors
     public static Error InternalError => new("internal.error", "Erro interno", ErrorType.InternalError);
     public static Error BadRequest(string message) => new("bad.request", message, ErrorType.BadRequest);
     public static Error EmailAlreadyExists => new("common.email-exists", "Este email já existe", ErrorType.Conflict);
-
+    public static Error InvalidDescription => new("common.description.invalid", "Descrição inválida");
 }

@@ -24,6 +24,7 @@ public class JwtTokenProvider
             new Claim("id", user.Id.ToString()),
             new Claim("email", user.Email.Value),
             new Claim("role", Enum.GetName(user.Role)!),
+            new Claim("company_id", user.CompanyId.ToString()),
             new Claim("co", user.Company.Alias.Value)
         };
 

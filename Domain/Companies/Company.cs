@@ -13,7 +13,7 @@ public class Company : BaseEntity
     public DateTimeOffset ExpirationDate { get; private set; }
     public bool IsActive { get; private set; }
 
-    public List<User> Users { get; private set; } = new List<User>();
+    public List<User> Users { get; private set; } = [];
 
     protected Company() { }
 

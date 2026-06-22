@@ -24,6 +24,10 @@ public class CreateCompanyHandler : BaseHandler<CreateCompanyRequest, CreateComp
 
     protected override async Task<Result<CreateCompanyResponse>> HandleAsync(CreateCompanyRequest request, CancellationToken ct)
     {
+        var aliasIsUnique = await _aliasChecker.IsUniqueAsync(request.Alias);
+        if (!aliasIsUnique)
+            return Result<CreateCompanyResponse>.Fail(CompanyErrors.AliasAlreadyExists);
+
         var companyResult = Company.Create(
             request.Name,
             request.Alias,
@@ -33,11 +37,7 @@ public class CreateCompanyHandler : BaseHandler<CreateCompanyRequest, CreateComp
         if (companyResult.IsFailure)
             return Result<CreateCompanyResponse>.Fail(companyResult.Error);
 
-        var company = companyResult.Data!;
-
-        var isUnique = await _aliasChecker.IsUniqueAsync(company.Alias);
-        if (!isUnique)
-            return Result<CreateCompanyResponse>.Fail(CompanyErrors.AliasAlreadyExists);
+        var company = companyResult.Data;
 
         _context.Companies.Add(company);
 

@@ -1,5 +1,4 @@
 ﻿using Harmonix.Domain.Companies.Services;
-using Harmonix.Domain.Companies.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Harmonix.Infrastructure.Data.Services;
@@ -12,11 +11,12 @@ public sealed class AliasUniqueChecker : IAliasUniqueChecker
     {
         _context = context;
     }
-    public async Task<bool> IsUniqueAsync(Alias alias)
+
+    public async Task<bool> IsUniqueAsync(string alias)
     {
         return !await _context.Companies
             .IgnoreQueryFilters()
             .AsNoTracking()
-            .AnyAsync(c => c.Alias.Value == alias.Value);
+            .AnyAsync(c => c.Alias.Value == alias);
     }
 }

@@ -44,9 +44,9 @@ public class CreateUserHandler : BaseHandler<CreateUserRequest, CreateUserRespon
         if (userResult.IsFailure)
             return Result<CreateUserResponse>.Fail(userResult.Error);
 
-        var user = userResult.Data!;
+        var user = userResult.Data;
 
-        var isUnique = await _emailChecker.IsUniqueAsync(user.Email);
+        var isUnique = await _emailChecker.IsUniqueAsync(user.Email.Value);
         if (!isUnique)
             return Result<CreateUserResponse>.Fail(CommonErrors.EmailAlreadyExists);
 
@@ -54,7 +54,7 @@ public class CreateUserHandler : BaseHandler<CreateUserRequest, CreateUserRespon
         if (passwordResult.IsFailure)
             return Result<CreateUserResponse>.Fail(passwordResult.Error);
 
-        var passwordHash = _passwordHasher.HashPassword(passwordResult.Data!.Value);
+        var passwordHash = _passwordHasher.HashPassword(passwordResult.Data.Value);
         user.SetPasswordHash(passwordHash);
 
         _context.Users.Add(user);

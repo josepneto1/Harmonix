@@ -33,6 +33,7 @@ public class UpdateUserHandler : BaseHandler<UpdateUserRequest, UpdateUserRespon
         if (user is null)
             return Result<UpdateUserResponse>.Fail(CommonErrors.NotFound);
 
+        Email? email = null;
         if (request.Email is not null)
         {
             var emailResult = Email.Create(request.Email);
@@ -42,14 +43,18 @@ public class UpdateUserHandler : BaseHandler<UpdateUserRequest, UpdateUserRespon
 
             if (!user.Email.Value.Equals(emailResult.Data.Value)) 
             {
-                var isUnique = await _emailChecker.IsUniqueAsync(emailResult.Data);
+                var isUnique = await _emailChecker.IsUniqueAsync(emailResult.Data.Value);
 
                 if (!isUnique)
                     return Result<UpdateUserResponse>.Fail(CommonErrors.EmailAlreadyExists);
             }
+
+            email = emailResult.Data;
         }
 
-        user.Update(request.Name, request.Email, request.Role);
+
+
+        user.Update(request.Name, email, request.Role);
 
         await _context.SaveChangesAsync();
 
